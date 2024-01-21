@@ -1,6 +1,6 @@
 [package]
 name = "knsh"
-version = "0.0.2"
+version = "0.0.3"
 edition = "2021"
 rust-version = "1.75.0"
 authors = ["nukopy <nukopy@gmail.com>"]
