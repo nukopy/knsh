@@ -1,0 +1,91 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "**.md"
+      - ".gitignore"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths-ignore:
+      - "**.md"
+      - ".gitignore"
+
+env:
+  CARGO_INCREMENTAL: 0
+  CARGO_NET_RETRY: 10
+  RUST_BACKTRACE: short
+  RUSTFLAGS: "-D warnings"
+  RUSTUP_MAX_RETRIES: 10
+  # support macOS 10.7 (Lion) and later
+  MACOSX_DEPLOYMENT_TARGET: 10.7
+
+jobs:
+  format:
+    name: Format [Rustfmt]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Rustfmt
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+      - name: Run format
+        run: cargo fmt --all -- --check
+
+  lint:
+    name: Lint [Clippy]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Clippy
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - name: Cache
+        uses: Swatinem/rust-cache@v2
+      - name: Run lint
+        run: cargo clippy
+
+  # Ensure that the project could be successfully compiled
+  cargo_check:
+    name: Compile
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+        rust: [1.75.0]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Rust toolchains
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: ${{ matrix.rust }}
+      - name: Cache
+        uses: Swatinem/rust-cache@v2
+      - name: Run cargo check
+        run: cargo check --workspace --locked
+
+  # Run tests
+  test:
+    name: Test
+    needs: [cargo_check]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+        rust: [1.75.0]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Rust toolchains
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust }}
+      - name: Cache
+        uses: Swatinem/rust-cache@v2
+      - name: Run tests
+        run: cargo test --verbose
