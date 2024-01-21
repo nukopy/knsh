@@ -1,5 +1,6 @@
 fn main() {
-    println!("Hello, world!");
+    let result = add(1, 2);
+    println!("Hello, world {}!", result);
 }
 
 fn add(a: i32, b: i32) -> i32 {
