@@ -1,6 +1,7 @@
 ## Local
 # general
 .envrc
+.idea
 .vscode
 *.code-workspace
 .DS_Store
