@@ -2,7 +2,14 @@
 name = "knsh"
 version = "0.0.2"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+rust-version = "1.75.0"
+authors = ["nukopy <nukopy@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/nukopy/knsh"
+homepage = "https://github.com/nukopy/knsh"
+description = "Toy shell written in Rust"
+categories = ["os"]
+keywords = ["shell", "sh", "cli"]
 
 [dependencies]
