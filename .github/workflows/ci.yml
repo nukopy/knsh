@@ -58,6 +58,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, macOS-latest, windows-latest]
         rust: [1.75.0]
+    needs: [format, lint]
     steps:
       - uses: actions/checkout@v4
       - name: Setup Rust toolchains
