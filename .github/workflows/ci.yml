@@ -25,6 +25,7 @@ env:
 jobs:
   format:
     name: Format [Rustfmt]
+    timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -37,6 +38,7 @@ jobs:
 
   lint:
     name: Lint [Clippy]
+    timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -52,6 +54,7 @@ jobs:
   # Ensure that the project could be successfully compiled
   cargo_check:
     name: Compile
+    timeout-minutes: 10
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -73,6 +76,7 @@ jobs:
   # Run tests
   test:
     name: Test
+    timeout-minutes: 10
     needs: [cargo_check]
     runs-on: ${{ matrix.os }}
     strategy:
