@@ -25,8 +25,8 @@ env:
 jobs:
   format:
     name: Format [Rustfmt]
-    timeout-minutes: 5
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - name: Setup Rustfmt
@@ -38,8 +38,8 @@ jobs:
 
   lint:
     name: Lint [Clippy]
-    timeout-minutes: 5
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - name: Setup Clippy
@@ -54,13 +54,13 @@ jobs:
   # Ensure that the project could be successfully compiled
   cargo_check:
     name: Compile
-    timeout-minutes: 10
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macOS-latest, windows-latest]
-        rust: [1.75.0]
+        os: [ ubuntu-latest, macOS-latest, windows-latest ]
+        rust: [ 1.75.0 ]
     needs: [format, lint]
     steps:
       - uses: actions/checkout@v4
@@ -76,14 +76,14 @@ jobs:
   # Run tests
   test:
     name: Test
-    timeout-minutes: 10
-    needs: [cargo_check]
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macOS-latest, windows-latest]
         rust: [1.75.0]
+    needs: [cargo_check]
     steps:
       - uses: actions/checkout@v4
       - name: Setup Rust toolchains
