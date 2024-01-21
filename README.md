@@ -14,4 +14,4 @@
 [github-actions-release-badge]: https://github.com/nukopy/knsh/actions/workflows/release.yml/badge.svg?branch=main
 [github-actions-release-url]: https://github.com/nukopy/knsh/actions/workflows/release.yml?query=branch:main
 
-Shell written in Rust 
+Toy shell written in Rust 
