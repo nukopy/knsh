@@ -16,8 +16,9 @@ fn main() {
 
         // 3. parse input
         let tokens = lines_to_tokens(input_lines);
-        for token in tokens {
-            println!("token: {}", token);
+        // println!("tokens: {:?}", tokens);
+        if tokens.is_empty() {
+            continue;
         }
     }
 }

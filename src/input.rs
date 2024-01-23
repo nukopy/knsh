@@ -1,4 +1,4 @@
-use crate::prompt::{print_prompt, PROMPT};
+use crate::prompt::{print_prompt, PROMPT_MULTILINE};
 
 fn trim_newline(str: String) -> (bool, String) {
     let mut is_trimmed = false;
@@ -36,12 +36,18 @@ pub fn read_multilines_input() -> Vec<String> {
         let mut line = String::new();
         std::io::stdin().read_line(&mut line).unwrap();
 
-        // check if line ends with a backslash. backslash means the line is not complete
+        // check if line ends with a backslash. backslash means the input is multiline
         let (_, line) = trim_newline(line);
         let (is_trimmed, line) = trim_backslash(line);
+
+        // empty line and empty line with backslash are not pushed to lines and break input loop
+        if line.is_empty() {
+            break;
+        }
+
         if is_trimmed {
             lines.push(line);
-            print_prompt(PROMPT)
+            print_prompt(PROMPT_MULTILINE)
         } else {
             lines.push(line);
             break;
