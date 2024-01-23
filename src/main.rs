@@ -1,21 +1,23 @@
+mod input;
+mod parser;
+mod prompt;
+
+use input::read_multilines_input;
+use parser::lines_to_tokens;
+use prompt::{print_prompt, PROMPT};
+
 fn main() {
-    let result = add(1, 2);
-    println!("Hello, world {}!", result);
-}
+    loop {
+        // 1. print prompt
+        print_prompt(PROMPT);
 
-fn add(a: i32, b: i32) -> i32 {
-    a + b
-}
+        // 2. read input lines
+        let input_lines = read_multilines_input();
 
-#[test]
-fn test_add() {
-    // test content: add(1, 2) == 3
-    // given (prerequisites):
-    let expected = 3;
-
-    // when (operation):
-    let actual = add(1, 2);
-
-    // then (expected results):
-    assert_eq!(actual, expected, "1 + 2 should be 3");
+        // 3. parse input
+        let tokens = lines_to_tokens(input_lines);
+        for token in tokens {
+            println!("token: {}", token);
+        }
+    }
 }
