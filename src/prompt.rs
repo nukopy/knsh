@@ -1,6 +1,7 @@
 use std::io::Write;
 
 pub const PROMPT: &str = "> ";
+pub const PROMPT_MULTILINE: &str = "::: ";
 
 pub fn print_prompt(prompt: &str) {
     print!("{}", prompt);
