@@ -9,15 +9,15 @@ use crate::execute::ExitCode;
 /// Args is used to initialize ShellState
 pub struct Args {
     prompt: String,
-    prompt_new_line: String,
+    prompt_multilines: String,
 }
 
 impl Args {
     /// new creates a new Args
-    pub fn new(prompt: String, prompt_new_line: String) -> Args {
+    pub fn new(prompt: String, prompt_multilines: String) -> Args {
         Args {
             prompt,
-            prompt_new_line,
+            prompt_multilines,
         }
     }
 }
@@ -30,7 +30,7 @@ pub struct ShellState {
     command_history: VecDeque<String>,
     last_exit_status: ExitCode,
     prompt: String,
-    prompt_new_line: String,
+    prompt_multilines: String,
 }
 
 impl ShellState {
@@ -49,7 +49,7 @@ impl ShellState {
             command_history: VecDeque::new(),
             last_exit_status: 0,
             prompt: args.prompt,
-            prompt_new_line: args.prompt_new_line,
+            prompt_multilines: args.prompt_multilines,
         }
     }
 
@@ -92,6 +92,16 @@ impl ShellState {
     /// get_current_dir returns current working directory
     pub fn get_current_dir(&self) -> &PathBuf {
         &self.current_working_dir
+    }
+
+    /// get_prompt returns prompt string
+    pub fn get_prompt(&self) -> &String {
+        &self.prompt
+    }
+
+    /// get_prompt_multilines returns prompt string for multiline input
+    pub fn get_prompt_multilines(&self) -> &String {
+        &self.prompt_multilines
     }
 
     /// --------------------------------------------------

@@ -1,4 +1,4 @@
-use crate::prompt::{print_prompt, PROMPT_MULTILINE};
+use crate::prompt::print_prompt;
 
 fn trim_newline(str: String) -> (bool, String) {
     let mut is_trimmed = false;
@@ -30,7 +30,7 @@ fn trim_backslash(str: String) -> (bool, String) {
     (is_trimmed, s)
 }
 
-pub fn read_multilines_input() -> Vec<String> {
+pub fn read_multilines_input(prompt_multilines: &str) -> Vec<String> {
     let mut lines = Vec::new();
     loop {
         let mut line = String::new();
@@ -47,7 +47,7 @@ pub fn read_multilines_input() -> Vec<String> {
 
         if is_trimmed {
             lines.push(line);
-            print_prompt(PROMPT_MULTILINE)
+            print_prompt(prompt_multilines)
         } else {
             lines.push(line);
             break;

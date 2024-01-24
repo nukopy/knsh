@@ -17,10 +17,10 @@ fn main() {
 
     loop {
         // 1. print prompt
-        print_prompt(PROMPT);
+        print_prompt(state.get_prompt());
 
         // 2. read input lines
-        let input_lines = read_multilines_input();
+        let input_lines = read_multilines_input(state.get_prompt_multilines());
 
         // 3. parse input
         let tokens = lines_to_tokens(input_lines);
