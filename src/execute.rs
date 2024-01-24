@@ -1,10 +1,13 @@
 use crate::builtin::{commands::EXIT, exit::exit};
 
-type ExitCode = i32;
+// ExitCode range is from 0 to 255
+pub type ExitCode = u8;
+
 const EXIT_SUCCESS: ExitCode = 0;
 const EXIT_FAILURE: ExitCode = 1;
 // const EXIT_BUILTIN: ExitCode = 2;
 const EXIT_COMMAND_NOT_FOUND: ExitCode = 127;
+const EXIT_OUT_OF_RANGE: ExitCode = 255; // if exit code is out of range, it will be set to 255
 
 pub fn execute(cmd: String, args: Vec<String>) -> ExitCode {
     match cmd.as_str() {
@@ -23,7 +26,15 @@ pub fn execute(cmd: String, args: Vec<String>) -> ExitCode {
                     print!("{}", stdout);
                     eprint!("{}", stderr);
 
-                    output.status.code().unwrap_or(EXIT_FAILURE)
+                    // calculate exit status
+                    let exit_status = output.status.code().unwrap_or(1);
+                    if exit_status > (EXIT_OUT_OF_RANGE as i32) {
+                        // exit_status is out of range, set it to 255. 255 means exit status is out of range.
+                        eprintln!("knsh: exit code out of range: {}", exit_status);
+                        EXIT_OUT_OF_RANGE
+                    } else {
+                        exit_status as ExitCode
+                    }
                 }
                 Err(e) => match e.kind() {
                     std::io::ErrorKind::NotFound => {
