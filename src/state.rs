@@ -25,6 +25,7 @@ impl Args {
 /// ShellState is used to store shell state
 #[derive(Debug)]
 pub struct ShellState {
+    #[allow(dead_code)]
     envs: HashMap<String, String>,
     current_working_dir: PathBuf,
     command_history: VecDeque<String>,
