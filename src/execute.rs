@@ -1,5 +1,7 @@
 use crate::builtin::{
-    commands::{EXIT, PWD},
+    commands::{
+        CAL, CAT, COMM, CUT, ECHO, EXIT, FIND, FORTUNE, GREP, HEAD, LS, PWD, TAIL, UNIQ, WC,
+    },
     exit::exit,
 };
 use crate::state::ShellState;
@@ -22,9 +24,41 @@ pub fn execute(state: &mut ShellState, tokens: Vec<String>) -> ExitCode {
     let cmd = tokens[0].clone();
     let args = tokens[1..].to_vec();
     match cmd.as_str() {
+        // special commands
         EXIT => {
             exit();
             unreachable!();
+        }
+        // built-in commands
+        CAL => {
+            todo!("command 'cal' is not implemented yet")
+        }
+        CAT => {
+            todo!("command 'cat' is not implemented yet")
+        }
+        COMM => {
+            todo!("command 'comm' is not implemented yet")
+        }
+        CUT => {
+            todo!("command 'cut' is not implemented yet")
+        }
+        ECHO => {
+            todo!("command 'echo' is not implemented yet")
+        }
+        FIND => {
+            todo!("command 'find' is not implemented yet")
+        }
+        FORTUNE => {
+            todo!("command 'fortune' is not implemented yet")
+        }
+        GREP => {
+            todo!("command 'grep' is not implemented yet")
+        }
+        HEAD => {
+            todo!("command 'head' is not implemented yet")
+        }
+        LS => {
+            todo!("command 'ls' is not implemented yet")
         }
         PWD => {
             let cwd = state.get_current_dir();
@@ -32,7 +66,16 @@ pub fn execute(state: &mut ShellState, tokens: Vec<String>) -> ExitCode {
 
             EXIT_SUCCESS
         }
-        // TODO: implement built-in commands
+        TAIL => {
+            todo!("command 'tail' is not implemented yet")
+        }
+        UNIQ => {
+            todo!("command 'uniq' is not implemented yet")
+        }
+        WC => {
+            todo!("command 'wc' is not implemented yet")
+        }
+        // fallback
         cmd => {
             let output = std::process::Command::new(cmd).args(args).output();
             match output {
