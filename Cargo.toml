@@ -13,3 +13,4 @@ categories = ["os"]
 keywords = ["shell", "sh", "cli"]
 
 [dependencies]
+home = "0.5.9"
