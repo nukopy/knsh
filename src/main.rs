@@ -1,21 +1,35 @@
+mod builtin;
+mod execute;
+mod input;
+mod parser;
+mod prompt;
+mod state;
+
+use execute::execute;
+use input::read_multilines_input;
+use parser::lines_to_tokens;
+use prompt::{print_prompt, PROMPT, PROMPT_MULTILINE};
+use state::{Args, ShellState};
+
 fn main() {
-    let result = add(1, 2);
-    println!("Hello, world {}!", result);
-}
+    let args = Args::new(PROMPT.to_string(), PROMPT_MULTILINE.to_string());
+    let mut state = ShellState::new(args);
 
-fn add(a: i32, b: i32) -> i32 {
-    a + b
-}
+    loop {
+        // 1. print prompt
+        print_prompt(state.get_prompt());
 
-#[test]
-fn test_add() {
-    // test content: add(1, 2) == 3
-    // given (prerequisites):
-    let expected = 3;
+        // 2. read input lines
+        let input_lines = read_multilines_input(state.get_prompt_multilines());
 
-    // when (operation):
-    let actual = add(1, 2);
+        // 3. parse input
+        let tokens = lines_to_tokens(input_lines);
+        if tokens.is_empty() {
+            continue;
+        }
 
-    // then (expected results):
-    assert_eq!(actual, expected, "1 + 2 should be 3");
+        // 4. execute
+        let exit_status = execute(&mut state, tokens);
+        state.update_last_exit_status(exit_status);
+    }
 }
