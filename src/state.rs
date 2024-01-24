@@ -120,6 +120,7 @@ impl ShellState {
 
     /// push_command_history pushes a new command to head of command history
     pub fn push_command_history(&mut self, cmd: String) {
+        // TODO: limit command history size
         self.command_history.push_back(cmd);
     }
 
